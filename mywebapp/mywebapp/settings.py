@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp',  # Add your app here
+    'mywebapp.myapp',  # Add your app here
 
 ]
 
@@ -51,7 +51,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'mywebapp.urls'
+# In mywebapp/mywebapp/settings.py
+ROOT_URLCONF = 'mywebapp.mywebapp.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mywebapp.wsgi.application'
+WSGI_APPLICATION = 'mywebapp.mywebapp.wsgi.application'
 
 
 # Database

@@ -1,22 +1,24 @@
-# Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container
+# Copy project files
+COPY manage.py .
 COPY requirements.txt .
+COPY mywebapp ./mywebapp
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=mywebapp.mywebapp.settings
 
-# Copy the current directory contents into the container at /app
-COPY . .
+# Install dependencies
+RUN pip install --no-cache-dir "django>=3.2,<4.0"
 
-# Expose port 8000 for the Django app
+# Update manage.py settings path
+RUN sed -i 's/mywebapp.settings/mywebapp.mywebapp.settings/' manage.py
+
 EXPOSE 8000
 
-# Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-ENV DJANGO_SETTINGS_MODULE=mywebapp.settings
+# Run migrations and start server
+CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
